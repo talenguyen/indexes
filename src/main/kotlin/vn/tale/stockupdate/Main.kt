@@ -60,6 +60,7 @@ fun <T> (() -> T).retry(time: Int): T? {
 fun currentDir(): File = Paths.get(".").toAbsolutePath().toFile()
 
 fun main(args: Array<String>) {
+  val startAt = System.currentTimeMillis()
   val vnIndexes = { getIndexes(vnIndexUrl) }.retry(3) ?: exitProcess(1)
   val hnxIndexes = { getIndexes(hnxIndexUrl) }.retry(3) ?: exitProcess(1)
   val upcomIndexes = { getIndexes(upcomIndexUrl) }.retry(3) ?: exitProcess(1)
@@ -76,4 +77,9 @@ fun main(args: Array<String>) {
 
   File(currentDir(), "indexes.csv")
     .writeText(csvContent)
+
+  val duration = System.currentTimeMillis() - startAt
+
+  println("Success took ${duration / 1000} secs")
+  exitProcess(0)
 }
