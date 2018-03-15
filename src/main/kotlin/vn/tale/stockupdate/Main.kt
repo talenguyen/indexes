@@ -72,8 +72,7 @@ fun main(args: Array<String>) {
       addAll(upcomIndexes)
     }
     .distinctBy { it.code }
-    .map { it.toCsvRow() }
-    .joinToString("\n")
+    .joinToString("\n") { it.toCsvRow() }
 
   File(currentDir(), "indexes.csv")
     .writeText(csvContent)
